@@ -21,10 +21,15 @@ export class AuthController {
 
         const currentUser = this.authService.getUserRequesterInformation(formData.username)
         if (currentUser && formData.password === 'password') {
-            return response.status(HttpStatus.ACCEPTED).json({ message: 'User logged with validation'})
+            response.setHeader('Authorization', 'Rorro')
+            return response.status(HttpStatus.ACCEPTED).json({ message: 'User logged with validation' })
         }
 
     }
 
+    @Post('Logout')
+    logout(@Res() response: Response) {
+        return response.status(HttpStatus.ACCEPTED).json({ message: 'Sessio has been close' })
+    }
 }
 
