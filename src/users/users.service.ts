@@ -1,10 +1,9 @@
-import { Injectable, Res } from '@nestjs/common';
+import { HttpStatus, Injectable, Res } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { execScan, execSaveItem } from 'src/utils/dynamoDB';
-import { PutCommandInput } from '@aws-sdk/lib-dynamodb';
-import { HttpStatus } from '@nestjs/common';
-import { Response } from 'express';
+import { execScan,execSaveItem } from '../utils/dynamoDB';
+import {PutCommandInput} from '@aws-sdk/lib-dynamodb';
+import {Response} from 'express';
 
 @Injectable()
 export class UsersService {

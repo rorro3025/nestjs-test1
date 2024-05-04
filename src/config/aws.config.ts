@@ -2,7 +2,7 @@ import { DynamoDBClient, DynamoDBClientConfig } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocumentClient,marshallOptions,unmarshallOptions } from '@aws-sdk/lib-dynamodb'
 
 const config: DynamoDBClientConfig = {
-    region: 'us-east-1'
+    region: 'us-east-1',
 }
 
 const marshallOptions:marshallOptions = {

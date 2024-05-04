@@ -10,11 +10,7 @@ interface LoginI {
 @Controller('login')
 export class AuthController {
 
-    authService: AuthService
-
-    constructor(authService: AuthService) {
-        this.authService = authService
-    }
+    constructor(private authService: AuthService) {}
 
     @Post()
     login(@Body() formData: LoginI, @Res() response: Response) {

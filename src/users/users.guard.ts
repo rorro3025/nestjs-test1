@@ -8,7 +8,6 @@ export class UsersGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest() as Request
-    if(request.headers['authorization'] === 'Rorro') return true
-    return false
+    return request.headers['authorization'] === 'Rorro';
   }
 }
