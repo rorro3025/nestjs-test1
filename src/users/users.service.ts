@@ -1,16 +1,18 @@
 import { HttpStatus, Injectable, Res } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { execScan,execSaveItem } from '../utils/dynamoDB';
+import { execScan,execSaveItem,execGetOneItem } from '../utils/dynamoDB';
 import {PutCommandInput} from '@aws-sdk/lib-dynamodb';
 import {Response} from 'express';
 
 @Injectable()
 export class UsersService {
+  private TableName = 'userDevelopment'
+
   async create(createUserDto: CreateUserDto,@Res() res: Response) {
     console.log(createUserDto)
     const params: PutCommandInput = {
-      TableName: 'userDevelopment',
+      TableName: this.TableName,
       Item: createUserDto
     }
     const response = await execSaveItem<CreateUserDto>(params)
@@ -26,7 +28,7 @@ export class UsersService {
   async findAll(@Res() res: Response) {
     console.log('sevice')
     const params = {
-      TableName: 'userDevelopment'
+      TableName: this.TableName
     }
     const response = await execScan<CreateUserDto>(params)
     if (response.success) {
@@ -37,8 +39,20 @@ export class UsersService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string, @Res() res:Response) {
+    const params ={
+      TableName: this.TableName ,
+      Key: {
+        id
+      }
+    }
+    const response = await execGetOneItem<CreateUserDto>(params)
+    if (response.success) {
+      return res.status(HttpStatus.OK).json(response.data);
+    }
+    if (response.success === false) {
+      return res.status(HttpStatus.NOT_FOUND).json(response.message)
+    }
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
